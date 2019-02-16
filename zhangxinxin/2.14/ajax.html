@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="" alt="">
+            </div>
+        </div>
+    </div>
+    <script>
+        function get(url, async = true, data = '') {
+            const xhr = new XMLHttpRequest();
+            return new Promise((resolve, reject) => {
+                xhr.onload = () => {
+                    if (xhr.status >= 200 && xhr.status <= 300 || xhr.status === 304) {
+                        resolve(xhr.responseText);
+                    } else {
+                        reject(new Error(`找不到请求地址：${url}`));
+                    }
+                }
+                xhr.open('get', url, async);
+                // xhr.setRequestHeader('content-type', 'json');
+                xhr.send(data);
+            })
+        };
+        get('/data.json').then((data) => {
+            console.log(data);
+        }).catch(() => {
+            console.log(mes);
+        });
+
+        function Banner(data) {
+            this.data = data;
+            this.init();
+        };
+        Banner.prototype = {
+            constructor: Banner,
+            init() {
+                this.data.forEach(item => {
+                    geting(item.img).then((img) => {
+                        document.body.innerHTML = `<div class="swiper-container">
+                                                        <div class="swiper-wrapper">
+                                                            <div class="swiper-slide">
+                                                                <img src="${item.img}" alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>`;
+                    });
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

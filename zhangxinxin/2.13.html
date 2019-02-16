@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function find(arr, callback) {
+            let res;
+            arr.map(function(item) {
+                if (callback(item)) {
+                    res = item;
+                    return;
+                };
+            });
+            console.log(res);
+        }
+        find([{
+            name: 'zs'
+        }, {
+            name: 'ww'
+        }, {
+            name: 'ls'
+        }], function(item) {
+            return item.name == 'ww';
+        });
+
+        // let str = 'hello';
+        const Mock = {
+            // str,
+            mock(opt) {
+                let key = Object.keys(opt);
+                let res = {};
+                // console.log(key);
+                key.map(function(title) {
+                    let nameArr = title.split('|');
+                    let name = nameArr[0];
+                    console.log(nameArr[1]); //5 - 10
+                    let count = this.getCount(nameArr[1]);
+                    let val = opt[title];
+                    if (typeof val === 'string') {
+                        res[name] = val.repeat(count);
+                    } else {
+                        res[name] = count;
+                    };
+                }, this);
+                return res;
+            },
+            getCount(n) {
+                let flag = n.includes('-');
+                if (flag) {
+                    let min = n.split('-')[0] * 1;
+                    let max = n.split('-')[1] * 1;
+                    return this.randoms(min, max);
+                } else {
+                    return n * 1;
+                }
+            },
+            randoms(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+        }
+        console.log(Mock.mock({
+            'name|5-10': 1,
+            'text|10-15': "1"
+        }));
+    </script>
+</body>
+
+</html>
